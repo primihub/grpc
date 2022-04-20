@@ -13,8 +13,11 @@
 # limitations under the License.
 """Load dependencies needed to compile and test the grpc library as a 3rd-party consumer."""
 
+
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@com_github_grpc_grpc//bazel:grpc_python_deps.bzl", "grpc_python_deps")
+
+
 
 def grpc_deps():
     """Loads dependencies need to compile and test the grpc library."""
@@ -71,12 +74,12 @@ def grpc_deps():
 
     native.bind(
         name = "libssl",
-        actual = "@boringssl//:ssl",
+        actual = "@openssl",
     )
 
     native.bind(
         name = "libcrypto",
-        actual = "@boringssl//:crypto",
+        actual = "@openssl",
     )
 
     native.bind(
@@ -184,18 +187,19 @@ def grpc_deps():
         actual = "@libuv//:libuv",
     )
 
-    if "boringssl" not in native.existing_rules():
-        http_archive(
-            name = "boringssl",
-            # Use github mirror instead of https://boringssl.googlesource.com/boringssl
-            # to obtain a boringssl archive with consistent sha256
-            sha256 = "bf070ffab0ea1a2d0c3d024d8ab8c813c96a5d07a890a9e7e9a979e9ad427b47",
-            strip_prefix = "boringssl-95b3ed1b01f2ef1d72fed290ed79fe1b0e7dafc0",
-            urls = [
-                "https://storage.googleapis.com/grpc-bazel-mirror/github.com/google/boringssl/archive/95b3ed1b01f2ef1d72fed290ed79fe1b0e7dafc0.tar.gz",
-                "https://github.com/google/boringssl/archive/95b3ed1b01f2ef1d72fed290ed79fe1b0e7dafc0.tar.gz",
-            ],
-        )
+    # if "boringssl" not in native.existing_rules():
+    #     http_archive(
+    #         name = "boringssl",
+    #         # Use github mirror instead of https://boringssl.googlesource.com/boringssl
+    #         # to obtain a boringssl archive with consistent sha256
+    #         sha256 = "bf070ffab0ea1a2d0c3d024d8ab8c813c96a5d07a890a9e7e9a979e9ad427b47",
+    #         strip_prefix = "boringssl-95b3ed1b01f2ef1d72fed290ed79fe1b0e7dafc0",
+    #         urls = [
+    #             "https://storage.googleapis.com/grpc-bazel-mirror/github.com/google/boringssl/archive/95b3ed1b01f2ef1d72fed290ed79fe1b0e7dafc0.tar.gz",
+    #             "https://github.com/google/boringssl/archive/95b3ed1b01f2ef1d72fed290ed79fe1b0e7dafc0.tar.gz",
+    #         ],
+    #     )
+
 
     if "zlib" not in native.existing_rules():
         http_archive(

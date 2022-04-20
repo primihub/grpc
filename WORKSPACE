@@ -1,5 +1,7 @@
 workspace(name = "com_github_grpc_grpc")
 
+
+
 load("//bazel:grpc_deps.bzl", "grpc_deps", "grpc_test_only_deps")
 
 grpc_deps()
@@ -46,25 +48,27 @@ load("@bazel_toolchains//rules:environments.bzl", "clang_env")
 load("@bazel_skylib//lib:dicts.bzl", "dicts")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-http_archive(
-    name = "build_bazel_rules_android",
-    sha256 = "cd06d15dd8bb59926e4d65f9003bfc20f9da4b2519985c27e190cddc8b7a7806",
-    strip_prefix = "rules_android-0.1.1",
-    urls = ["https://github.com/bazelbuild/rules_android/archive/v0.1.1.zip"],
-)
+# http_archive(
+#     name = "build_bazel_rules_android",
+#     sha256 = "cd06d15dd8bb59926e4d65f9003bfc20f9da4b2519985c27e190cddc8b7a7806",
+#     strip_prefix = "rules_android-0.1.1",
+#     urls = ["https://github.com/bazelbuild/rules_android/archive/v0.1.1.zip"],
+# )
 
-android_sdk_repository(
-    name = "androidsdk",
-    # version 31.0.0 won't work https://stackoverflow.com/a/68036845
-    build_tools_version = "30.0.3",
-)
+# android_sdk_repository(
+#     name = "androidsdk",
+#     # version 31.0.0 won't work https://stackoverflow.com/a/68036845
+#     build_tools_version = "30.0.3",
+# )
 
-android_ndk_repository(
-    name = "androidndk",
-    # Note that Bazel does not support NDK 22 yet, and Bazel 3.7.1 only
-    # supports up to API level 29 for NDK 21
-    # https://github.com/bazelbuild/bazel/issues/13421
-)
+# android_ndk_repository(
+#     name = "androidndk",
+#     # Note that Bazel does not support NDK 22 yet, and Bazel 3.7.1 only
+#     # supports up to API level 29 for NDK 21
+#     # https://github.com/bazelbuild/bazel/issues/13421
+# )
+
+
 
 # Prevents bazel's '...' expansion from including the following folder.
 # This is required because the BUILD file in the following folder
@@ -93,3 +97,25 @@ pip_install(
     name = "grpc_python_dependencies",
     requirements = "@com_github_grpc_grpc//:requirements.bazel.txt",
 )
+
+
+
+
+
+http_archive(
+    name = "rules_foreign_cc",
+    sha256 = "33a5690733c5cc2ede39cb62ebf89e751f2448e27f20c8b2fbbc7d136b166804",
+    strip_prefix = "rules_foreign_cc-0.5.1",
+    url = "https://github.com/bazelbuild/rules_foreign_cc/archive/0.5.1.tar.gz",
+)
+
+load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
+
+rules_foreign_cc_dependencies()
+
+
+load("//bazel:repos.bzl", openssl_repos="repos")
+openssl_repos()
+
+load("//bazel:deps.bzl", openssl_deps="deps")
+openssl_deps()
