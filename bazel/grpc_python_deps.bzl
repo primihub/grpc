@@ -49,7 +49,10 @@ def grpc_python_deps():
     if "io_bazel_rules_python" not in native.existing_rules():
         http_archive(
             name = "io_bazel_rules_python",
-            url = "https://github.com/bazelbuild/rules_python/releases/download/0.4.0/rules_python-0.4.0.tar.gz",
+            urls = [
+              "https://primihub.oss-cn-beijing.aliyuncs.com/tools/rules_python-0.4.0.tar.gz",
+              "https://github.com/bazelbuild/rules_python/releases/download/0.4.0/rules_python-0.4.0.tar.gz"
+            ],
             sha256 = "954aa89b491be4a083304a2cb838019c8b8c3720a7abb9c4cb81ac7a24230cea",
             patches = ["//third_party:rules_python.patch"],
             patch_args = ["-p1"],
@@ -69,6 +72,7 @@ def grpc_python_deps():
             sha256 = "e2e38e1f0572ca54d6085df3dec8b607d20e81515fb80215aed19c81e8fe2079",
             strip_prefix = "cython-0.29.21",
             urls = [
+                "https://primihub.oss-cn-beijing.aliyuncs.com/tools/cython_0.29.21.tar.gz",
                 "https://github.com/cython/cython/archive/0.29.21.tar.gz",
             ],
         )
